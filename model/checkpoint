@@ -1,0 +1,2 @@
+model_checkpoint_path: "MASK_RPN_50000.ckpt"
+all_model_checkpoint_paths: "MASK_RPN_50000.ckpt"
