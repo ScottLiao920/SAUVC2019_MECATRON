@@ -29,3 +29,8 @@ class camera_thread(threading.Thread):
 
     def read(self):
         return self.img
+
+    def release(self):
+        self.release()
+        cv2.destroyAllWindows()
+        return True

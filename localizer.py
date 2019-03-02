@@ -87,7 +87,7 @@ font = cv2.FONT_HERSHEY_SIMPLEX
 color = (0, 0, 255)
 
 
-def get_pos(img, pos_x, pos_y):
+def get_pos(img, pos_x, pos_y, depth):
     res = img.copy()
     h, w = img.shape[:2]
 
