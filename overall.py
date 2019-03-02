@@ -6,7 +6,7 @@ import numpy as np
 
 import localizer
 import gesture_detection
-# import movement
+import movement
 import pass_gate
 from camera_module import camera_thread
 
@@ -35,7 +35,7 @@ def map_init():
     print(map)
 
 
-map_init()
+# map_init()
 camera_front = camera_thread(0)
 # camera_down = camera_thread(1)
 # camera_down.start()
@@ -56,19 +56,23 @@ while True:
     coords_front = gesture_detection.get_coord_from_detection(img_front)
     print (coords_front)
     t2 = time.time()
-    '''if not len(coords_front) is 0:
+    if not len(coords_front) is 0:
         x, y, cat = coords_front[0], coords_front[1], coords_front[4]
         if cat is 2:
-        # flare detected
-        # if x
+            # flare detected
+            if x<700:
+                movement.turn_right()
+                continue
+            elif x>800:
+                movement.turn_left()
+                continue
+            else:
+                movement.move_fwd()
         if cat is 3:
             # target zone detected
             # begin to detect blue drum using camera_down
             coords_down = gesture_detection.get_coord_from_detection(img_down)
-        if cat is 0:
-    # gate detected
     else:
         # No target detected
-        movement.move_forward'''
+        movement.move_forward
     print("fps:", 1 / (t2 - t1))
-    # if coords
