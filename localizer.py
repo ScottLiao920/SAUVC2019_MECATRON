@@ -85,9 +85,8 @@ start_time = time.time()
 # print(len(self.tiles))
 font = cv2.FONT_HERSHEY_SIMPLEX
 color = (0, 0, 255)
-cam = cv2.VideoCapture(0)
-while True:
-    s, img = cam.read()
+
+def get_pos(img):
     res = img.copy()
     h, w = img.shape[:2]
 
@@ -214,7 +213,4 @@ while True:
     ppm = px_W / W
     pos_x -= best_del_x / ppm
     pos_y -= best_del_y / ppm
-    print(pos_x, pos_y, pred_depth)
-    frame_counter += 1
-    time.sleep(0.5)
-
+    return pos_x, pos_y, pred_depth

@@ -4,7 +4,7 @@ import time
 
 import numpy as np
 
-import depthdetect
+import localizer
 import gesture_detection
 import movement
 import pass_gate
@@ -36,17 +36,17 @@ def map_init():
 
 map_init()
 camera_front = camera_thread(0)
-# camera_down = camera_thread(1)
-# camera_down.start()
+camera_down = camera_thread(1)
+camera_down.start()
 camera_front.start()
 img_front = camera_front.read()
 pass_gate.pass_gate(1)
 while True:
     # cur_pos in the form of x,y,z
     t1 = time.time()
-    # img_front = camera_front.read()
-    # img_down = camera_down.read()
-    # cur_depth = depthdetect.get_depth(img_down)
+    img_front = camera_front.read()
+    img_down = camera_down.read()
+    cur_x, cur_y, cur_depth = localizer.get_pos(img_down)
     # if cur_depth < 1:
     # write to myrio to stop and move up
     # coords_front = gesture_detection.get_coord_from_detection(img_front)
