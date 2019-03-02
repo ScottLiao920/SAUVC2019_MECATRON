@@ -86,7 +86,8 @@ start_time = time.time()
 font = cv2.FONT_HERSHEY_SIMPLEX
 color = (0, 0, 255)
 
-def get_pos(img):
+
+def get_pos(img, pos_x, pos_y):
     res = img.copy()
     h, w = img.shape[:2]
 
