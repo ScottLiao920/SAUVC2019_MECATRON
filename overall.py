@@ -9,12 +9,15 @@ import localizer
 import movement
 import pass_gate
 import target_zone
+import flare_hitting
 from camera_module import camera_thread
 
 total_col = 28
 total_row = 25
 green_cloth_pos = (1, 3)
 cur_pos = (0, 0, 2)
+flare_completed = False
+ball_picked_up = False
 
 # need to change according to starting point:
 start2right = 10  # need to change this constant according to distance from starting point to right side wall
@@ -55,28 +58,23 @@ while True:
         x, y, cat = coords_front[0], coords_front[1], coords_front[4]
         if cat is 2:
             # flare detected
-            if x < 700:
-                movement.turn_right()
-                continue
-            elif x > 800:
-                movement.turn_left()
-                continue
-            else:
-                movement.move_fwd()
+            cur_pos[0], cur_pos[1], cur_pos[2] = flare_hitting.hit_flare(cur_pos)
+            flare_completed = True
         if cat is 3:
             # target zone detected
             # release these cameras from this function to use ins
             cur_pos[0], cur_pos[1], cur_pos[2] = target_zone.ball_play(cur_pos)
+            ball_picked_up = True
     else:
         # No target detected
-        if cur_pos[1] < 22:
-            movement.move_fwd()
-        else:
-            movement.turn_right()
-        if cur_pos[0] > start2right:
-            movement.turn_right()
-        else:
-            movement.move_fwd()
         if cur_pos[0] > 10 and cur_pos[1] < 2:
             movement.turn_right()
+        if cur_pos[1] > 21 or cur_pos[0] > start2right:
+            movement.turn_right()
+        elif cur_pos[0] > 10 and cur_pos[1] < 2:
+            movement.turn_right()
+        else:
+            movement.move_fwd()
+    if flare_completed and ball_picked_up:
+        movement.move_up()
     print("fps:", 1 / (t2 - t1))

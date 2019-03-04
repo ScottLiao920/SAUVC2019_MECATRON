@@ -1,8 +1,8 @@
 import time
 
 import gesture_detection
-import movement
 import localizer
+import movement
 from camera_module import camera_thread
 
 cam_front = camera_thread(0)
@@ -43,14 +43,19 @@ def ball_play(pos):
                     movement.move_bwd()
                 else:
                     movement.move_fwd()
-        else:
-            if len(coords_down) is not 0:
+        else:  # pick up the ball
+            if len(coords_down) is not 0 and coords_down[4] is 1:  # after changing the labels, golf ball is 1
                 x, y = coords_down[0], coords_down[1]
-                if 300 < y < 700 and 600 < x < 900:
+                if 300 < y < 700 and 600 < x < 900:  # change this after testing robotic arm
                     movement.arm()
-                    break
+                    img_down = cam_down.read()
+                    coords_down = gesture_detection.get_coord_from_detection(img_down)
+                    if len(coords_down) is not 0 and coords_down[4] is not 1:
+                        break
                 elif y > 700:
                     movement.move_bwd()
                 else:
                     movement.move_fwd()
+    cam_down.release()
+    cam_front.release()
     return pos[0], pos[1], pos[2]
