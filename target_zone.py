@@ -12,6 +12,7 @@ cam_down.start()
 
 
 def ball_play(pos):
+    pickup_trials = 10
     arm_pos = False
     while True:
         img_down = cam_down.read()
@@ -50,8 +51,10 @@ def ball_play(pos):
                     movement.arm()
                     img_down = cam_down.read()
                     coords_down = gesture_detection.get_coord_from_detection(img_down)
-                    if len(coords_down) is not 0 and coords_down[4] is not 1:
+                    if (len(coords_down) is not 0 and coords_down[4] is not 1) or pickup_trials is 0:
                         break
+                    else:
+                        pickup_trials -= 1
                 elif y > 700:
                     movement.move_bwd()
                 else:
