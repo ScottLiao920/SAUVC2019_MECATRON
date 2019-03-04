@@ -72,11 +72,11 @@ while True:
         if cat is 3:
             # target zone detected
             # release these cameras from this function to use ins
-            target_zone.ball_play(cur_pos)
+            cur_pos[0], cur_pos[1], cur_pos[2] = target_zone.ball_play(cur_pos)
     else:
         # No target detected
         if cur_pos[0] < 25:
             movement.move_fwd()
         else:
-            movement.turn_left()
+            movement.turn_right()
     print("fps:", 1 / (t2 - t1))
