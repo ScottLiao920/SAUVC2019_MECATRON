@@ -4,36 +4,30 @@ import time
 
 import numpy as np
 
-import localizer
 import gesture_detection
+import localizer
 import movement
-import target_zone
 import pass_gate
+import target_zone
 from camera_module import camera_thread
 
 total_col = 28
 total_row = 25
 green_cloth_pos = (1, 3)
 cur_pos = (0, 0, 2)
-# define serial port to communicate with myRio
-# integrated with movement.py alr
-'''ser = serial.Serial(
-    port='/dev/ttyUSB0',  # Change port
-    baudrate=115200,
-    parity=serial.PARITY_ODD,
-    stopbits=serial.STOPBITS_ONE,
-    bytesize=serial.SEVENBITS
-)'''
+
+# need to change according to starting point:
+start2right = 10  # need to change this constant according to distance from starting point to right side wall
 
 
 def map_init():
-    map = np.zeros([total_row, total_col])
-    map[cur_pos[0]][cur_pos[1]] = 1
+    mapping = np.zeros([total_row, total_col])
+    mapping[cur_pos[0]][cur_pos[1]] = 1
     for i in range(2):
         for j in range(8):
-            map[i + green_cloth_pos[0]][j + green_cloth_pos[1]] = 1
-    map[8] = 0
-    print(map)
+            mapping[i + green_cloth_pos[0]][j + green_cloth_pos[1]] = 1
+    mapping[8] = 0
+    print(mapping)
 
 
 map_init()
@@ -75,8 +69,14 @@ while True:
             cur_pos[0], cur_pos[1], cur_pos[2] = target_zone.ball_play(cur_pos)
     else:
         # No target detected
-        if cur_pos[0] < 25:
+        if cur_pos[1] < 22:
             movement.move_fwd()
         else:
+            movement.turn_right()
+        if cur_pos[0] > start2right:
+            movement.turn_right()
+        else:
+            movement.move_fwd()
+        if cur_pos[0] > 10 and cur_pos[1] < 2:
             movement.turn_right()
     print("fps:", 1 / (t2 - t1))
