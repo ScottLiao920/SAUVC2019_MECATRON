@@ -16,6 +16,8 @@ green_cloth_pos = (1, 3)
 cur_pos = (0, 0, 2)
 flare_completed = False
 ball_picked_up = False
+left = False
+right = True  # For overall movement
 
 # need to change according to starting point:
 start2right = 10  # need to change this constant according to distance from starting point to right side wall
@@ -57,6 +59,7 @@ while True:
             ball_picked_up = True
     else:
         # No target detected
+        '''
         if cur_pos[0] > 10 and cur_pos[1] < 2:
             movement.turn_right()
         if cur_pos[1] > 21 or cur_pos[0] > start2right:
@@ -66,10 +69,18 @@ while True:
         else:
             movement.move_fwd()
         '''
-        if cur_pos[0] > start2right or cur_pos[0] <start2right:
+        if cur_pos[0] > start2right and cur_pos[1] < 8:
             movement.move_fwd()
-        elif cur_pos[0] 
-        '''
+            left = True
+            right = False
+        elif cur_pos[0] < -start2right and cur_pos[1] < 16:
+            movement.move_fwd()
+            left = False
+            right = True
+        elif left:
+            movement.turn_left()
+        elif right:
+            movement.turn_right()
     if flare_completed and ball_picked_up:
         movement.move_up()
     print("fps:", 1 / (t2 - t1))

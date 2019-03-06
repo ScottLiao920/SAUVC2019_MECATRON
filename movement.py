@@ -1,15 +1,15 @@
 import serial
-import time
 
 ser = serial.Serial(
-    port='/dev/ttyUSB0',# Change port
+    port='/dev/ttyUSB0',  # Change port
     baudrate=115200,
     parity=serial.PARITY_ODD,
     stopbits=serial.STOPBITS_ONE,
     bytesize=serial.EIGHTBITS
 )
 
-# Bytes format: 
+
+# Bytes format:
 # left right, up, down, foward, backward, arm
 # first 6 bytes set to zero: stop
 # arm: 1 for change current situation, 0 is to remain the same
