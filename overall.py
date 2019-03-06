@@ -46,6 +46,7 @@ while True:
     coords_front = gesture_detection.get_coord_from_detection(img_front)
     print(coords_front)
     t2 = time.time()
+    print("fps:", 1 / (t2 - t1))
     if len(coords_front) is not 0:
         x, y, cat = coords_front[0][0], coords_front[0][1], coords_front[0][4]
         if cat is 2:
@@ -83,4 +84,3 @@ while True:
             movement.turn_right()
     if flare_completed and ball_picked_up:
         movement.move_up()
-    print("fps:", 1 / (t2 - t1))
