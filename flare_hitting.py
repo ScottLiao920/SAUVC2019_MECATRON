@@ -18,7 +18,7 @@ def hit_flare(cur_pos):
         img_down = cam_down.read()
         coords_front = gesture_detection.get_coord_from_detection(img_front)
         cur_pos[0], cur_pos[1], cur_pos[2] = localizer.get_pos(img_down, cur_pos[0], cur_pos[1], cur_pos[2])
-        x, y = coords_front[0], coords_front[1]
+        x, y = coords_front[0][0], coords_front[0][1]
         if x < 700:
             movement.turn_right()
             continue

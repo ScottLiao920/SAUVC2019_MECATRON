@@ -22,7 +22,7 @@ def ball_play(pos):
         pos[0], pos[1], pos[2] = localizer.get_pos(img_down, pos[0], pos[1], pos[2])
         if arm_pos is False:
             if len(coords_front) is not 0:
-                x, y = coords_front[0], coords_front[1]
+                x, y = coords_front[0][0], coords_front[0][1]
                 if x < 700:
                     movement.turn_right()
                 elif x > 800:
@@ -31,9 +31,12 @@ def ball_play(pos):
                     movement.move_fwd()
                     time.sleep(1)
             elif len(cam_down) is not 0:
-                x, y = coords_down[0], coords_down[1]
+                if coords_down[0][4] is 1:
+                    x, y = coords_down[0][0], coords_down[0][1]
+                else:
+                    x, y = coords_down[1][0], coords_down[1][1]
                 if 300 < y < 700 and 600 < x < 900:
-                    movement.arm()
+                    movement.arm_drop()
                     arm_pos = True
                     movement.move_bwd()
                     time.sleep(10)
@@ -45,10 +48,27 @@ def ball_play(pos):
                 else:
                     movement.move_fwd()
         else:  # pick up the ball
-            if len(coords_down) is not 0 and coords_down[4] is 1:  # after changing the labels, golf ball is 1
+            if len(coords_down) is 1 and coords_down[4] is 1:  # after changing the labels, golf ball is 1
                 x, y = coords_down[0], coords_down[1]
                 if 300 < y < 700 and 600 < x < 900:  # change this after testing robotic arm
-                    movement.arm()
+                    movement.arm_pick()
+                    img_down = cam_down.read()
+                    coords_down = gesture_detection.get_coord_from_detection(img_down)
+                    if (len(coords_down) is not 0 and coords_down[4] is not 1) or pickup_trials is 0:
+                        break
+                    else:
+                        pickup_trials -= 1
+                elif y > 700:
+                    movement.move_bwd()
+                else:
+                    movement.move_fwd()
+            elif len(coords_down) is 2 and (coords_down[0][4] is 1 or coords_down[1][4] is 1):
+                if coords_down[0][4] is 1:
+                    x, y = coords_down[0][0], coords_down[0][1]
+                else:
+                    x, y = coords_down[1][0], coords_down[1][1]
+                if 300 < y < 700 and 600 < x < 900:  # change this after testing robotic arm
+                    movement.arm_pick()
                     img_down = cam_down.read()
                     coords_down = gesture_detection.get_coord_from_detection(img_down)
                     if (len(coords_down) is not 0 and coords_down[4] is not 1) or pickup_trials is 0:

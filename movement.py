@@ -6,7 +6,7 @@ ser = serial.Serial(
     baudrate=115200,
     parity=serial.PARITY_ODD,
     stopbits=serial.STOPBITS_ONE,
-    bytesize=serial.SEVENBITS
+    bytesize=serial.EIGHTBITS
 )
 
 # Bytes format: 
@@ -15,40 +15,45 @@ ser = serial.Serial(
 # arm: 1 for change current situation, 0 is to remain the same
 
 def turn_left():
-    ser.write('1000000\r\n'.encode('ascii'))
+    ser.write('10000000\r\n'.encode('ascii'))
     return 0
 
 
 def turn_right():
-    ser.write('0100000\r\n'.encode('ascii'))
+    ser.write('01000000\r\n'.encode('ascii'))
     return 0
 
 
 def move_fwd():
-    ser.write('0010000\r\n'.encode('ascii'))
+    ser.write('00100000\r\n'.encode('ascii'))
     return 0
 
 
 def move_bwd():
-    ser.write('0001000\r\n'.encode('ascii'))
+    ser.write('00010000\r\n'.encode('ascii'))
     return 0
 
 
 def move_up():
-    ser.write('0000100\r\n'.encode('ascii'))
+    ser.write('00001000\r\n'.encode('ascii'))
     return 0
 
 
 def move_down():
-    ser.write('0000010\r\n'.encode('ascii'))
+    ser.write('00000100\r\n'.encode('ascii'))
     return 0
 
 
 def stop():
-    ser.write('0000000\r\n'.encode('ascii'))
+    ser.write('00000000\r\n'.encode('ascii'))
     return 0
 
 
-def arm():
-    ser.write('0000001\r\n'.encode('ascii'))
+def arm_drop():
+    ser.write('00000010\r\n'.encode('ascii'))
+    return 0
+
+
+def arm_pick():
+    ser.write('00000011\r\n'.encode('ascii'))
     return 0
