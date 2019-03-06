@@ -11,7 +11,7 @@ camera_down = camera_thread(1)
 camera_down.start()
 
 
-def pass_gate(cat, pos):
+def pass_gate(pos):
     fwd_count = 25
     while True:
         t1 = time.time()
@@ -23,7 +23,7 @@ def pass_gate(cat, pos):
         cv2.imshow('pass_gate_img', img)
         print(coords)
         movement.turn_left()
-        if len(coords) is 2 and coords[0][4] is cat:
+        if len(coords) is 2 and coords[0][4] is 0:
             x1, x2, y1, y2 = coords[0][0], coords[1][0], coords[0][1], coords[1][1]
             if ((x1 + x2) // 2) < 800:
                 movement.turn_left()
@@ -50,4 +50,4 @@ def pass_gate(cat, pos):
         print("fps:", 1 / (t2 - t1))
     print("Gate passed!")
     camera_front.release()
-    return True
+    return localizer.get_pos(img_down, pos[0], pos[1], pos[2])

@@ -31,7 +31,7 @@ camera_front.start()
 img_front = camera_front.read()
 # initialize parameters
 
-pass_gate.pass_gate(1)
+cur_pos = pass_gate.pass_gate(cur_pos)
 # go through the gate
 while True:
     # cur_pos in the form of x,y,z
