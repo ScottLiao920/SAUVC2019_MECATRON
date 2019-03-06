@@ -45,28 +45,21 @@ def ball_play(pos):
                     # move out of target zone and move in again
                 elif y > 700:
                     movement.move_bwd()
+                elif x < 600:
+                    movement.turn_right()
+                elif x > 900:
+                    movement.turn_left()
                 else:
                     movement.move_fwd()
         else:  # pick up the ball
-            if len(coords_down) is 1 and coords_down[4] is 1:  # after changing the labels, golf ball is 1
-                x, y = coords_down[0], coords_down[1]
-                if 300 < y < 700 and 600 < x < 900:  # change this after testing robotic arm
-                    movement.arm_pick()
-                    img_down = cam_down.read()
-                    coords_down = gesture_detection.get_coord_from_detection(img_down)
-                    if (len(coords_down) is not 0 and coords_down[4] is not 1) or pickup_trials is 0:
-                        break
-                    else:
-                        pickup_trials -= 1
-                elif y > 700:
-                    movement.move_bwd()
-                else:
-                    movement.move_fwd()
-            elif len(coords_down) is 2 and (coords_down[0][4] is 1 or coords_down[1][4] is 1):
-                if coords_down[0][4] is 1:
+            if len(coords_down) is not 0:
+                if len(coords_down) is 1 and coords_down[0][4] is 1:
                     x, y = coords_down[0][0], coords_down[0][1]
-                else:
-                    x, y = coords_down[1][0], coords_down[1][1]
+                if len(coords_down) is 2:
+                    if coords_down[0][4] is 1:
+                        x, y = coords_down[0][0], coords_down[0][1]
+                    else:
+                        x, y = coords_down[1][0], coords_down[1][1]
                 if 300 < y < 700 and 600 < x < 900:  # change this after testing robotic arm
                     movement.arm_pick()
                     img_down = cam_down.read()
@@ -77,6 +70,10 @@ def ball_play(pos):
                         pickup_trials -= 1
                 elif y > 700:
                     movement.move_bwd()
+                elif x < 600:
+                    movement.turn_right()
+                elif x > 900:
+                    movement.turn_left()
                 else:
                     movement.move_fwd()
     cam_down.release()

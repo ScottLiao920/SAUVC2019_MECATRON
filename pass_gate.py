@@ -25,8 +25,11 @@ def pass_gate(cat, pos):
         movement.turn_left()
         if len(coords) is 2 and coords[0][4] is cat:
             x1, x2, y1, y2 = coords[0][0], coords[1][0], coords[0][1], coords[1][1]
-            if not 700 < ((x1 + x2) // 2) < 800:
+            if ((x1 + x2) // 2) < 800:
                 movement.turn_left()
+                continue
+            elif ((x1 + x2) // 2) > 720:
+                movement.turn_right()
                 continue
             if not 100 < ((y1 + y2) // 2) < 200:
                 if (y1 + y2) // 2 < 100:
