@@ -29,7 +29,6 @@ def ball_play(pos):
                     movement.turn_left()
                 else:
                     movement.move_fwd()
-                    time.sleep(1)
             elif len(cam_down) is not 0:
                 if coords_down[0][4] is 1:
                     x, y = coords_down[0][0], coords_down[0][1]

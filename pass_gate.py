@@ -13,6 +13,7 @@ camera_down.start()
 
 def pass_gate(pos):
     fwd_count = 25
+    find_count = 25
     while True:
         t1 = time.time()
         img = camera_front.read()
@@ -22,7 +23,11 @@ def pass_gate(pos):
         # x,y,width,height,category
         cv2.imshow('pass_gate_img', img)
         print(coords)
-        movement.turn_left()
+        if find_count and len(coords) is 0:
+            movement.turn_left()
+            find_count -= 1
+        elif len(coords) is 0:
+            movement.turn_right()
         if len(coords) is 2 and coords[0][4] is 0:
             x1, x2, y1, y2 = coords[0][0], coords[1][0], coords[0][1], coords[1][1]
             if ((x1 + x2) // 2) < 800:
